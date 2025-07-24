@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-__e)&r6o=yim9_6p$78d4y6@v+#v8t*(-c@2vzxz47y+cg%d$#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://stock-project-plrk.onrender.com', '127.0.0.1' ]
+ALLOWED_HOSTS = ['stock-project-plrk.onrender.com', '127.0.0.1']
 
 
 # Application definition
