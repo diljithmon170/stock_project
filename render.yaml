@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: warehouse-django
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn warehouse_project.wsgi
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: warehouse_project.settings
+      - key: PYTHON_VERSION
+        value: 3.11

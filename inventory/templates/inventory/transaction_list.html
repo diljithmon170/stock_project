@@ -1,0 +1,7 @@
+<h2>All Stock Transactions</h2>
+<a href="{% url 'add_transaction' %}">Add New Transaction</a>
+<ul>
+  {% for txn in transactions %}
+    <li>{{ txn.transaction_type }} - {{ txn.date }}</li>
+  {% endfor %}
+</ul>
