@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: warehouse-django
+    name: stock_project
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn stock_project.wsgi
