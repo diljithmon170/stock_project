@@ -1,12 +1,147 @@
-<h2>Add Stock Transaction</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {{ formset.management_form }}
-  {% for form in formset %}
-    <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Stock Transaction</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f4f8;
+      padding: 40px;
+    }
+
+    .form-box {
+      background-color: white;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    form p {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: 600;
+      color: #555;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    small {
+      display: block;
+      color: #777;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    fieldset {
+      border: 1px solid #ccc;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      background-color: #f9f9f9;
+    }
+
+    legend {
+      font-weight: bold;
+      color: #444;
+      padding: 0 10px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #43a047;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      color: #007BFF;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      color: red;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-box">
+    <h2>Add Stock Transaction</h2>
+    <form method="post">
+      {% csrf_token %}
+      
       {{ form.as_p }}
-    </div>
-  {% endfor %}
-  <button type="submit">Save</button>
-</form>
+      {{ formset.management_form }}
+
+      {% for form in formset %}
+        <fieldset>
+          {% comment %} Removed legend showing 'Product Detail {{ forloop.counter }}' as per user feedback {% endcomment %}
+          {% for field in form %}
+            {% if field.name != 'DELETE' %}
+              <div style="margin-bottom: 12px;">
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {% if field.name == 'quantity' %}
+                  {% with product_field=form.product.value %}
+                    {% if product_field %}
+                      {% for product in products %}
+                        {% if product.pk|stringformat:"s" == product_field %}
+                          <small>Unit: {{ product.unit }}</small>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  {% endwith %}
+                {% endif %}
+                {% if field.help_text %}
+                  <small>{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                  <div class="error">{{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </fieldset>
+      {% endfor %}
+      
+      <button type="submit">Save</button>
+    </form>
+    <a class="back-link" href="{% url 'transaction_list' %}">← Back to Transaction List</a>
+  </div>
+</body>
+</html>

@@ -1,7 +1,45 @@
+{% extends "inventory/base.html" %}
+
+{% block content %}
 <h2>All Stock Transactions</h2>
 <a href="{% url 'add_transaction' %}">Add New Transaction</a>
-<ul>
-  {% for txn in transactions %}
-    <li>{{ txn.transaction_type }} - {{ txn.date }}</li>
-  {% endfor %}
-</ul>
+<br><br>
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; background: #fff;">
+  <thead style="background: #3498db; color: #fff;">
+    <tr>
+      <th>Transaction Type</th>
+      <th>Date</th>
+      <th>Product(s)</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for txn in transactions %}
+      <tr>
+        <td>{{ txn.transaction_type }}</td>
+        <td>{{ txn.date }}</td>
+        <td>
+          {% for detail in txn.stockdetail_set.all %}
+            {{ detail.product.name }}{% if not forloop.last %}, {% endif %}
+          {% empty %}
+            No products
+          {% endfor %}
+        </td>
+        <td>
+          <a href="{% url 'transaction_detail' txn.pk %}">View</a> |
+          <a href="{% url 'edit_transaction' txn.pk %}">Edit</a> |
+          <a href="{% url 'delete_transaction' txn.pk %}">Delete</a>
+        </td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="4" style="text-align:center;">No transactions found.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<br>
+<a href="{% url 'home' %}">
+  <button type="button">Back to Home</button>
+</a>
+{% endblock %}

@@ -1,6 +1,95 @@
-<h2>Add Product</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Save</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Product</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f4f8;
+      padding: 40px;
+    }
+
+    .form-box {
+      background-color: white;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    form p {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: 600;
+      color: #555;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    small {
+      display: block;
+      color: #777;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #43a047;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      color: #007BFF;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-box">
+    <h2>Add Product</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <small>Note: Price is per unit (as specified in the Unit field).</small>
+      <button type="submit">Save</button>
+    </form>
+    <a class="back-link" href="{% url 'product_list' %}">← Back to Product List</a>
+  </div>
+</body>
+</html>

@@ -1,7 +1,40 @@
+{% extends "inventory/base.html" %}
+
+{% block content %}
 <h2>All Products</h2>
 <a href="{% url 'add_product' %}">Add New Product</a>
-<ul>
-  {% for product in products %}
-    <li>{{ product.name }} - ₹{{ product.price }}</li>
-  {% endfor %}
-</ul>
+<br><br>
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; background: #fff;">
+  <thead style="background: #3498db; color: #fff;">
+    <tr>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Unit</th>
+      <th>Price <span style="font-weight:normal;">(per unit)</span></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in products %}
+      <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.unit }}</td>
+        <td>₹{{ product.price }}</td>
+        <td>
+          <a href="{% url 'edit_product' product.pk %}">Edit</a> |
+          <a href="{% url 'delete_product' product.pk %}">Delete</a>
+        </td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="5" style="text-align:center;">No products found.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<br>
+<a href="{% url 'home' %}">
+  <button type="button">Back to Home</button>
+</a>
+{% endblock %}
